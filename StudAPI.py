@@ -7,7 +7,7 @@ from flask import Flask
 from flask_cors import CORS
 import json
 # Create environment variables for python api
-app = Flask(__name__)
+app = Flask(__name__,instance_path="E:\Student-Management-System\API Student mgmt\instance")
 CORS(app)
 
 # To get Student data from Database
@@ -72,6 +72,17 @@ def processDel_json():
      else:
          return 'Content-Type not supported!'
 
+@app.route('/del_student/<id>', methods=['DELETE'])
+def processDelId_json(id):
+    # content_type = request.headers.get('Content-Type')
+    # if(content_type == 'application/json'):
+     
+        print("id:", id)
+        inputHandler.deleteJson(id)
+        return json
+    # else:
+    #      return 'Content-Type not supported!'
+
 # To Search data ny Name in Database
 @app.route('/search_student', methods=['GET'])
 def processSearch_json():
@@ -105,8 +116,9 @@ def processUpdate_json():
          print(json)
          id = request.json['id']
          name = request.json['name']
-         print(id,name)
-         inputHandler.updateJson(id,name)
+         age = request.json['age']
+         print(id,name,age)
+         inputHandler.updateJson(id,name,age)
         
          return json
      else:
